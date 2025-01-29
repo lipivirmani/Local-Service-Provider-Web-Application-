@@ -1,0 +1,456 @@
+<!-- search_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+
+{% if user.is_authenticated and not user.is_staff %}
+
+
+body {
+    
+   background-image: url("http://127.0.0.1:8000/media/profile_images/main.jpg");
+
+
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size:cover;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+        }
+
+{% else %}
+
+body {
+    
+    background-image: url("http://127.0.0.1:8000/media/profile_images/admin.jpg");
+ 
+ 
+     background-attachment: fixed;
+     background-repeat: no-repeat;
+     background-size:cover;
+     font-family: Arial, sans-serif;
+     margin: 20px;
+         }
+{% endif %}
+
+
+
+         .copyright-info {
+        text-align: center;
+        margin-top: 1px; /* Adjust as needed for spacing */
+        color: #fff; /* Set the text color */
+    }
+
+         .black-section {
+            background-color: #000;
+            color: #fff;
+            padding: 1px;
+            text-align: right;
+            
+        }
+        
+      
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select {
+            width: 200px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #searchResults {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        .green-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Green color */
+            color: #fff; /* White text */
+            text-decoration: none; /* Remove underline from the link */
+            border-radius: 5px; /* Optional: Add rounded corners */
+            border: none; /* Optional: Remove border */
+            cursor: pointer;
+            margin-right: 10px; /* Add margin for spacing between buttons */
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect */
+        .green-button:hover {
+            background-color: #45a049; /* Darker green color on hover */
+        }
+
+        /* Add styles for the user section */
+        .user-section {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .welcome-message {
+            font-size: 18px;
+            margin-right: 20px;
+            color: #333;
+        }
+
+        .user-links a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+        #searchResults {
+    margin-top: 20px;
+    background-color: #fff; /* Set background color to white */
+    padding: 20px; /* Add padding for better spacing */
+    border-radius: 10px; /* Optional: Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
+}
+
+#searchResults h2 {
+    color: #333; /* Set heading color */
+    text-decoration: underline; /* Add underline to heading */
+    margin-bottom: 10px; /* Add space below heading */
+}
+
+/* Optional: Add styles for the table within the search results */
+#searchResults table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px; /* Adjust as needed for spacing */
+}
+
+#searchResults th, #searchResults td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+#searchResults th {
+    background-color: #f2f2f2;
+}
+
+#searchResults .green-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for buttons within the search results */
+#searchResults .green-button:hover {
+    background-color: #45a049;
+}
+
+
+.user-panel {
+            background-color: #f0f0f0; /* Set background color */
+            padding: 20px; /* Add padding for spacing */
+            border-radius: 10px; /* Optional: Add rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
+            margin-bottom: 20px; /* Add margin at the bottom */
+        }
+
+    
+
+
+        @keyframes waterAnimation {
+        0% {
+            background-position: 0% 0%;
+        }
+        100% {
+            background-position: 100% 0%;
+        }
+    }
+
+    .service-pop-container {
+        display: inline-block;
+        padding: 10px; /* Adjust the padding as needed */
+        border: 2px solid #3498db; /* Set the border color */
+        border-radius: 10px; /* Optional: Add rounded corners */
+        overflow: hidden; /* Hide overflowing content */
+    }
+
+    h1.service-pop {
+        color: transparent;
+        background: linear-gradient(90deg, #3498db, #5dade2, #3498db); /* Adjust the colors as needed */
+        background-size: 200% 100%;
+        animation: waterAnimation 2s linear infinite;
+        -webkit-background-clip: text; /* Clip the background to the text */
+        margin: 0; /* Remove default margin for better alignment */
+        font-size: 2em; /* Adjust the font size as needed */
+    }
+    </style>
+</head>
+<body class="body">
+   <div>
+
+    {% if user.is_authenticated %}
+    <div  style="background-color: transparent" class="user-section" >
+        {% if user.is_authenticated and user.is_staff %}
+        <h2 style="color: red;">Admin</h2>
+        {% else %}
+        <h2 style="color: blue;">User</h2>
+        {% endif %}
+        <div style="color:black" class="welcome-message"><h2>Welcome {{ user.username }} </h2></div>
+        <br>
+        <div style="background-color: #f0f0f0;" class="user-links" >
+            {% if user.is_authenticated and not user.is_staff %}
+            <a style="color: blue;" href="{% url 'show_bookings' %}" ><u><b>Bookings</b></u></a>
+            <a style="color: red" href="{% url 'user-profile' %}"  ><u><b>Profile</b></u></a>
+            <a style="color: purple" href="{% url 'logout' %}"  ><u><b>Logout</b></u></a>
+            {% elif user.is_authenticated and user.is_staff %}
+            <a style="color: orange" href="{% url 'add-details' %}"  ><u><b>Add Details</b></u></a>
+            <a style="color: red" href="{% url 'user-profile' %}"  ><u><b>Profile</b></u></a>
+
+            <a style="color: purple" href="{% url 'logout' %}"  ><u><b>Logout</b></u></a>
+
+            {% endif %}
+        
+        </div>
+
+    </div>
+
+    <center>
+        <a href="{% url 'home' %}">
+            <div class="service-pop-container">
+                <h1 class="service-pop">SERVICE POP</h1>
+            </div>
+        </a>
+    </center>
+
+    <br><br>
+   <form id="searchForm" method="POST" onsubmit="return validateForm()">
+    {% csrf_token %}
+
+    <label for="location">Select Location:</label>
+    <select id="location" name="location_name">
+        <option value="">Select One</option>
+        {% for location in locations %}
+            <option value="{{ location.location_name }}">{{ location.location_name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="service">Select Service:</label>
+    <select id="service" name="service_name">
+        <option value="">Select One</option>
+        {% for service in services %}
+            <option value="{{ service.service_name }}">{{ service.service_name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Search</button>
+</form>
+
+<div class="error-message" id="errorMessage"></div>
+
+    <!-- Display search results here -->
+    <div id="searchResults">
+        <h2><u>Search Records</u></h2>
+
+    <table>
+        <tr>
+            <th>S.No</th>
+            <th>Name</th>
+            <th>Phone No</th>
+            <th>Per Hour rate(INR) </th>
+           
+            <th>Action</th>
+          
+            <!-- <th>Availability</th> -->
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.Phone_No}}</td>
+            <td>{{i.Per_hour_rateINR}}</td>
+            {% if user.is_authenticated and not user.is_staff %}
+
+            <td>  <a href="{% url 'check' i.id %}" class="green-button">BOOK NOW</a>
+            </td>
+            {% else %}
+            <td>  <a href="{% url 'booking-history' i.id %}" class="green-button">BOOKING HISTORY</a>
+            </td>
+
+            {% endif %}
+            <!-- <td>  <a href="www.example.com" class="green-button">Show_Availability</a>
+            </td> -->
+            
+
+        </tr>
+        {% endfor %}
+
+
+    </table>
+    </div>
+    <br>
+    {% if user.is_authenticated and not user.is_staff %}
+<div>
+    <div>
+
+    <div>
+
+    
+        <div id="searchResults">
+            <!-- <h2><u>Collaborative Filtering Recommendations</u></h2> -->
+            {% if unique_recommendations %}
+            <h2><u>Recommends</u></h2>
+
+
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone No</th>
+                    <th>Per Hour rate(INR)</th>
+                    <th>Location</th>
+                    <th>Service</th>
+                    <th>Action</th>
+                </tr>
+                {% for recommendation in unique_recommendations %}
+                    <tr>
+                        <td>{{ recommendation.name }}</td>
+                        <td>{{ recommendation.Phone_No }}</td>
+                        <td>{{ recommendation.Per_hour_rateINR }}</td>
+                        <td>{{ recommendation.location_name.location_name }}</td>
+                        <td>{{ recommendation.service_name.service_name }}</td>
+                        <td><a href="{% url 'check' recommendation.id %}" class="green-button">BOOK NOW</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <!-- Display content-based filtering recommendations for the user with bookings -->
+            <!-- <h2><u>Content-Based Filtering Recommendations</u></h2> -->
+
+
+            
+          {% endif %}
+
+        <!-- Display content-based filtering recommendations for the new user (no bookings) -->
+        {% if content_based_filtering_new_user_recommendations %}
+            <div id="searchResults">
+                <!-- <h2><u>Content-Based Filtering Recommendations for New User</u></h2> -->
+                
+                <h2><u> Recommends </u></h2> 
+
+
+
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone No</th>
+                        <th>Per Hour rate(INR)</th>
+                        <th>Location</th>
+                        <th>Service</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for recommendation in content_based_filtering_new_user_recommendations %}
+                        <tr>
+                            <td>{{ recommendation.name }}</td>
+                            <td>{{ recommendation.Phone_No }}</td>
+                            <td>{{ recommendation.Per_hour_rateINR }}</td>
+                            <td>{{ recommendation.location_name.location_name }}</td>
+                            <td>{{ recommendation.service_name.service_name }}</td>
+                            <td><a href="{% url 'check' recommendation.id %}" class="green-button">BOOK NOW</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+    </div>
+    {% endif %}
+    
+
+            {% endif %}
+                
+    
+    </div>
+    </div>
+    <p>---------------------------------------------------------------</p>
+    <p>----------------------------------------------------------------</p>
+<p>-----------------------------------------------------------</p>
+</div>
+   </div>
+
+   </div>
+
+   
+
+    <div class="black-section fixed-bottom">
+        <p id="currentDate"></p>
+        <div class="copyright-info">
+            <p>&copy; 2023 Service Pop. All rights reserved. | Contact: 91-9234458768 | service_pop234@gmail.com</p>
+        </div>
+
+    </div>
+
+    <script>
+        function validateForm() {
+            var locationValue = document.getElementById('location').value;
+            var serviceValue = document.getElementById('service').value;
+
+            if (locationValue === '' || serviceValue === '') {
+                document.getElementById('errorMessage').innerText = 'Select both for search.';
+                return false; // Prevent form submission
+            }
+
+            return true; // Allow form submission
+        }
+        function getCurrentDate() {
+            var today = new Date();
+            var date = today.getDate();
+            var month = today.getMonth() + 1; // January is 0!
+            var year = today.getFullYear();
+
+            // Display the date in the format DD-MM-YYYY
+            var formattedDate = date + '-' + month + '-' + year;
+
+            // Update the content of the element with id "currentDate"
+            document.getElementById('currentDate').innerText = formattedDate;
+        }
+
+        // Call the function to display the current date when the page loads
+        window.onload = getCurrentDate;
+    </script>
+    {% endif %}
+    
+</body>
+</html>
