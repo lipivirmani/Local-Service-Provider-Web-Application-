@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url('http://127.0.0.1:8000/media/profile_images/WhatsApp_Image_2023-11-27_at_5.24.00_PM.jpeg') center/cover no-repeat; /* Background image link */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff; /* Set text color to white for better visibility */
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px; /* Adjust the width as needed */
+            text-align: center;
+        }
+
+        #left-section {
+            flex: 1;
+            text-align: left;
+        }
+
+        #right-section {
+            flex: 1;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .register-link {
+            margin-top: 10px;
+            text-align: center;
+            color: #333; /* Set link color to a readable color */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="row my-4">
+            <div class="col-md-6 offset-md-3">
+                <div class="login-container">
+                    <div id="left-section">
+                        <h1 style="font-size: 2.5em; font-weight: bold; color: black;">Service PoP</h1>
+                    </div>
+                    <div  id="right-section">
+                        <form style="color: black;" method="POST">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+
+                        <div class="register-link">
+                            <a href="{% url 'password_reset_request' %}">Forgot Password</a>
+                        </div>
+                        <br>
+                        <div class="register-link">
+                            <a href="{% url 'register' %}" style="color: black;" >Don't have an account? Register here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
