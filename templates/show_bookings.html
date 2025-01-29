@@ -1,0 +1,143 @@
+<!-- show_bookings.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Bookings</title>
+    <style>
+        body {
+            
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        
+        h1 {
+            color: #4CAF50;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .red-button {
+      background-color: #ff0000; /* Red color */
+      color: #ffffff; /* White text color */
+      padding: 10px 20px; /* Adjust padding as needed */
+      font-size: 16px; /* Adjust font size as needed */
+      border: none; /* Remove border */
+      border-radius: 5px; /* Add border-radius for rounded corners */
+      cursor: pointer; /* Add a pointer cursor on hover */
+      
+    }
+
+    .right-corner {
+        position: absolute;
+        top: 10px; /* Adjust the top position as needed */
+        right: 10px; /* Adjust the right position as needed */
+    }
+    .right-corner {
+        position: absolute;
+        top: 10px; /* Adjust the top position as needed */
+        right: 10px; /* Adjust the right position as needed */
+    }
+    .navbar {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+    }
+
+    .navbar a {
+        display: inline-block;
+        padding: 10px;
+        text-decoration: none;
+        color: #333; /* Adjust the color as needed */
+        margin-left: 10px; /* Adjust the space between links as needed */
+    }
+
+    .navbar a:last-child {
+        margin-right: 0; /* Remove margin for the last link */
+    }
+    body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .like-button,
+        .dislike-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .like-button img,
+        .dislike-button img {
+            width: 30px; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}">HOME</a>
+        <a href="{% url 'user-profile' %}">PROFILE</a>
+        {% if user.is_authenticated and not user.is_staff %}
+            <a href="{% url 'show_bookings' %}">BOOKINGS</a>
+        {% endif %}
+    </div>
+    
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <h1>Your Bookings</h1>
+
+    <table>
+        <tr>
+            <th>Person Name</th>
+            <th>Service</th>
+            <th>Slot Duration </th>
+            <th>Selected Date</th>
+            <th>Location</th>
+            <th>Delete</th>
+        </tr>
+        {% for booking in user_bookings %}
+        <tr>
+            <td>{{ booking.person_info.name }}</td>
+            <td>{{booking.person_info.service_name}}</td>
+            <td>{{booking.slot_start_time}} - {{booking.slot_end_time}}</td>
+            <td>{{booking.selected_day}}</td>
+            <td>{{booking.person_info.location_name.location_name}}</td>
+            
+
+        
+
+            <td>
+                <!-- DELETE button -->
+                <form action="{% url 'delete-booking' booking.id %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button class="red-button">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

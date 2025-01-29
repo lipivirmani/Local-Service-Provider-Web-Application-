@@ -1,0 +1,96 @@
+<!-- feedback_form.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            max-width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        p {
+            margin: 0;
+            color: #555;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+  <form method="post" action="{% url 'book-slot' booking.person_info.id %}">
+    {% csrf_token %}
+
+    <h1>Feedback Form</h1>
+
+    <label for="user">User Booked:</label>
+    <p>{{ booking.user.username }}</p>
+
+    <label for="person_info">Person Info:</label>
+    <p>{{ booking.person_info.name }}</p>
+
+    <label for="last_booked_selected">Your Last Booked Selected:</label>
+    <p>{{ booking.selected_day }} - {{ booking.slot_start_time }} to {{ booking.slot_end_time }}</p>
+
+    <label for="feedback_rating">Feedback Rating:</label>
+    <select name="feedback_rating" id="feedback_rating" required>
+      {% for choice in booking.FEEDBACK_CHOICES %}
+        <option value="{{ choice.0 }}" {% if choice.0 == booking.feedback_rating %}selected{% endif %}>{{ choice.1 }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- Add other feedback form fields if needed -->
+
+    <button type="submit">Submit Feedback</button>
+  </form>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!-- payment.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+        input {
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .green-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect */
+        .green-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+         function validatePayment() {
+            var cardNumber = document.getElementById("card_number").value;
+            var expiryDate = document.getElementById("expiry_date").value;
+            var cvv = document.getElementById("cvv").value;
+
+            // Card number validation (must be 4 digits)
+            if (!/^\d{4}$/.test(cardNumber)) {
+                alert("Please enter a valid 4-digit card number.");
+                return false;
+            }
+
+            // Expiry date validation (must be in MM/YYYY format)
+            if (!/^(0[1-9]|1[0-2])\/\d{4}$/.test(expiryDate)) {
+                alert("Please enter a valid expiry date in MM/YYYY format.");
+                return false;
+            }
+
+            // CVV validation (must be 3 digits)
+            if (!/^\d{3}$/.test(cvv)) {
+                alert("Please enter a valid 3-digit CVV.");
+                return false;
+            }
+
+            // If all validations pass, submit the form
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h1>Payment Details</h1>
+
+    <table>
+        <tr>
+            <th>Person Name</th>
+            <th>Service</th>
+            <th>Booking Hours</th>
+            <th>Selected day</th>
+            <th>Total Amount</th>
+        </tr>
+        <tr>
+            <td>{{ person_info.name }}</td>
+            <td>{{ person_info.service_name.service_name }}</td>
+            <td>{{slot_start_time}} - {{slot_end_time}}</td>
+            <td>{{selected_day}}</td>
+            <td>{{ total_amount }}</td>
+        </tr>
+    </table>
+
+    <form method="POST" action="{% url 'process_payment' person_info.id slot_start_time slot_end_time selected_day %}" onsubmit="return validatePayment()">
+        {% csrf_token %}
+        <label for="card_number">Card Number(Last four digits):</label>
+        <input type="text" id="card_number" name="card_number" required>
+
+        <label for="expiry_date">Expiry Date:</label>
+        <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YYYY" required>
+
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" required>
+
+        <button type="submit" class="green-button">Pay Now</button>
+    </form>
+</body>
+</html>

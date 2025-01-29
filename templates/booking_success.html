@@ -1,0 +1,58 @@
+<!-- booking_success.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Success</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #e6ffe6;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .right-corner {
+        position: absolute;
+        top: 10px; /* Adjust the top position as needed */
+        right: 10px; /* Adjust the right position as needed */
+    }
+    .navbar {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+    }
+
+    .navbar a {
+        display: inline-block;
+        padding: 10px;
+        text-decoration: none;
+        color: #333; /* Adjust the color as needed */
+        margin-left: 10px; /* Adjust the space between links as needed */
+    }
+
+    .navbar a:last-child {
+        margin-right: 0; /* Remove margin for the last link */
+    }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}">HOME</a>
+        <a href="{% url 'user-profile' %}">PROFILE</a>
+        {% if user.is_authenticated and not user.is_staff %}
+            <a href="{% url 'show_bookings' %}">BOOKINGS</a>
+        {% endif %}
+    </div>
+
+    <h1>Booking Successful</h1>
+    <p>Your booking has been confirmed. Thank you!</p>
+</body>
+</html>

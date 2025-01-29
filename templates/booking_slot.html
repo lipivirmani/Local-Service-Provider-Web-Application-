@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking slots</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha384-GLhlTQ8iN17U6dIfFqF5srbJj3pzFJ8To4C7xq4vEF+tMz9q4N7fF6b1" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .navbar a {
+            display: inline-block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: #e44d26;
+        }
+
+        .content {
+            margin-top: 80px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e44d26;
+            color: #fff;
+        }
+
+        .book-slot-form {
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .btn-primary {
+            background-color: #e44d26;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #333;
+        }
+
+        @media screen and (max-width: 768px) {
+            .navbar {
+                text-align: center;
+            }
+
+            .navbar a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}">HOME</a>
+        <a href="{% url 'user-profile' %}">PROFILE</a>
+        {% if user.is_authenticated and not user.is_staff %}
+        <a href="{% url 'show_bookings' %}">BOOKINGS</a>
+        {% endif %}
+    </div>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="content">
+        
+
+        <u><h2>Booked Slots</h2></u>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td>{{ i.slot_start_time }} - {{ i.slot_end_time }},</td>
+                    <td>{{ i.selected_day }},</td>
+                    <td> {{ i.person_info.location_name.location_name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br><br>
+
+        <h2>Book a Slot for {{ person_info.name }}</h2>
+        <!-- <form class="book-slot-form" method="post" >
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Book Slot</button>
+        </form> -->
+        <form  class="book-slot-form" method="post" >
+            {% csrf_token %}
+            
+            <!-- Person Info and User fields go here -->
+        
+            <label for="id_slot_start_time">Start Time:</label>
+            <input type="time" id="id_slot_start_time" name="slot_start_time" required>
+            <p></p>
+            
+            <label for="id_slot_end_time">End Time:</label>
+            <input type="time" id="id_slot_end_time" name="slot_end_time" required>
+            <p></p>
+        
+            <label for="id_selected_day">Selected Day:</label>
+            <input type="date" id="id_selected_day" name="selected_day" required>
+            <p></p>
+        
+            <button type="submit" class="btn btn-primary" >Book Slot</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!-- booking_history.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking History</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        .booking-count-box {
+            background-color: blanchedalmond;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+            fill: #4CAF50;
+            margin-right: 5px;
+        }
+
+        @media screen and (max-width: 600px) {
+            table {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-count-box">
+        <strong style="color: blue;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg> Number of Bookings:</strong> <p style="color: black;">{{ data|length }}</p>
+    
+    </div>
+    <br>
+    <br><br>
+
+
+    <h1>Booking History for {{ person_info.name }}</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Selected Day</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in data %}
+            <tr>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.slot_start_time }}</td>
+                <td>{{ booking.slot_end_time }}</td>
+                <td>{{ booking.selected_day }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
